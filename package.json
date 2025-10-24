@@ -1,0 +1,49 @@
+{
+  "name": "@hugo-fixit/docs",
+  "version": "1.0.0",
+  "private": true,
+  "packageManager": "pnpm@10.15.1",
+  "description": "Documentation of FixIt theme",
+  "keywords": [
+    "hugo-theme-fixit",
+    "documentation",
+    "hugo",
+    "hugo-blog"
+  ],
+  "homepage": "https://github.com/hugo-fixit/docs#readme",
+  "bugs": {
+    "url": "https://github.com/hugo-fixit/docs/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hugo-fixit/docs.git"
+  },
+  "license": "MIT",
+  "author": "Lruihao (https://lruihao.cn)",
+  "scripts": {
+    "algolia": "atomic-algolia",
+    "fix:md": "autocorrect content --fix && markdownlint-cli2 \"content/**/*.md\" --fix",
+    "lint:md": "autocorrect content --lint && markdownlint-cli2 \"content/**/*.md\"",
+    "prepare": "simple-git-hooks",
+    "build": "hugo --gc --minify --logLevel info",
+    "server": "hugo server -D --disableFastRender --navigateToChanged --ignoreCache --renderToMemory --noHTTPCache -O",
+    "server:production": "npm run server -- -e production",
+    "server:development": "cross-env HUGO_MODULE_WORKSPACE=hugo.work npm run server -- --ignoreVendorPaths \"**\"",
+    "update": "hugo mod get -u && hugo mod tidy"
+  },
+  "devDependencies": {
+    "atomic-algolia": "^0.3.19",
+    "autocorrect-node": "^2.14.0",
+    "cross-env": "^10.0.0",
+    "lint-staged": "^16.1.0",
+    "markdownlint-cli2": "^0.18.1",
+    "markdownlint-rule-search-replace": "^1.2.0",
+    "simple-git-hooks": "^2.13.1"
+  },
+  "engines": {
+    "node": ">=20.17"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged"
+  }
+}

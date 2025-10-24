@@ -1,36 +1,52 @@
 /**
- * Custom javascript for FixIt site.
+ * Custom JavaScript for FixIt documentation site.
  * @author @Lruihao https://lruihao.cn
  */
-const Docs = new (function () {
-  /**
-   * Rest in Peace. R.I.P 🕯️
-   * @2022-3-28 [3.21-mu5735] 沉痛哀悼 132 名遇难同胞：东航航班失事，遇难者含旅客 123 人，机组 9 人
-   * @returns {Docs}
-   */
-  this.RIP = () => {
-    if (new Date() < new Date('2022-03-31')) {
-      document.querySelector('html').style.filter = 'grayscale(100%)';
+class FixItDocs {
+  constructor() {
+    this.author = {
+      name: 'Lruihao',
+      github: 'https://github.com/Lruihao',
+      website: 'https://lruihao.cn',
     }
-    return this;
-  };
+    this.site = 'FixIt';
+    this.url = location.origin;
+  }
   /**
-   * Initialize.
-   * @returns {Docs}
+   * print theme info with pretty style
+   * @returns {FixItDocs}
    */
-  this.init = () => {
-    this.RIP();
+  themeInfo() {
+    let subtitle = fixit.config?.version || 'unknown';
+
+    if (subtitle.split('-').length > 2) {
+      subtitle = subtitle.replace(/-.*$/, '*');
+    }
+    // set header subtitle with theme version (desktop and mobile)
+    const headerSubtitles = document.querySelectorAll('.header-subtitle');
+    headerSubtitles.forEach((el) => {
+      el.textContent = subtitle;
+    });
     return this;
-  };
-})();
+  }
+
+  /**
+   * initialize
+   * @returns {FixItDocs}
+   */
+  init() {
+    this.themeInfo();
+    return this;
+  }
+}
 
 /**
- * Immediate.
+ * immediate execution
  */
 (() => {
-  // Docs.init();
-  // It will be executed when the DOM tree is built.
+  window.fixitDocs = new FixItDocs();
+  // it will be executed when the DOM tree is built
   document.addEventListener('DOMContentLoaded', () => {
-    // Docs.init();
+    window.fixitDocs.init();
   });
 })();

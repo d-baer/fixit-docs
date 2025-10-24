@@ -5,4 +5,307 @@
 
 .profile-custom {
   margin-top: 0.5rem;
+
+  .docs-navigation {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 100%;
+    position: relative;
+    border-radius: 2.5px;
+    margin-block: 1.5rem;
+    background: linear-gradient($global-background-color, $global-background-color) padding-box, linear-gradient(45deg, #42d392, #FF7359) border-box;
+    border: 0.25rem solid transparent;
+    transition: background-color 0.5s, border-color 0.5s;
+
+    [data-theme='dark'] & {
+      background: $global-background-color-dark;
+      border-color: #fff;
+    }
+
+    .docs-outline {
+      align-self: center;
+      text-align: left;
+      list-style: none;
+      margin-inline: auto;
+      flex-shrink: 0;
+
+      li {
+        position: relative;
+        padding: 0.5rem 1.5rem;
+        font-size: 18px;
+        --timeline-color: #{darken($global-border-color, 5%)};
+        --timeline-circle-color: #FF735A;
+        --timeline-circle-size: 10px;
+        --timeline-width: 2px;
+
+        @for $i from 1 through 4 {
+          &:nth-child(#{$i}) {
+            --timeline-index: #{$i};
+
+            &::before {
+              content: '#{$i}';
+              font-weight: 700;
+            }
+          }
+        }
+        
+        &::before {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          left: 0;
+          width: var(--timeline-circle-size);
+          height: var(--timeline-circle-size);
+          font-size: var(--timeline-circle-size);
+          line-height: var(--timeline-circle-size);
+          text-align: center;
+          border-radius: 50%;
+          border: var(--timeline-width) solid var(--timeline-color);
+          background-color: $global-background-color;
+          color: transparent;
+          z-index: 1;
+          animation-name: border-color-fade;
+          animation-duration: 2s;
+          animation-iteration-count: infinite;
+          animation-delay: calc(var(--timeline-index) * 0.3s);
+
+          @keyframes border-color-fade {
+            0% {
+              border-color: var(--timeline-color);
+            }
+            50% {
+              border-color: var(--timeline-circle-color);
+              // 显示序号
+              background-color: var(--timeline-circle-color);
+              color: #fff;
+              // color: var(--timeline-circle-color);
+            }
+            100% {
+              border-color: var(--timeline-color);
+            }
+          }
+
+          [data-theme='dark'] & {
+            background-color: $global-background-color-dark;
+          }
+        }
+        &::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: calc(var(--timeline-circle-size) / 2 + var(--timeline-width) / 2);
+          width: var(--timeline-width);
+          height: 100%;
+          background-color: var(--timeline-color);
+        }
+
+        [data-theme='dark'] & {
+          --timeline-color: #{darken($global-border-color, 50%)};
+        }
+      }
+    }
+    
+    .docs-preview {
+      width: 60%;
+      height: auto;
+      aspect-ratio: 572/300;
+      padding-block: 0.5rem;
+      margin-left: auto;
+      position: relative;
+
+      // 利用伪元素加载顺序巧妙实现 loading 效果
+      &::before,
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      &::before {
+        background-color: rgba(204, 204, 204, 0.1);
+        background-image: var(#{$rootPrefix}loading-img);
+        background-size: 60px;
+
+        [data-theme='dark'] & {
+          background-color: rgba(0, 0, 0, 0.1);
+        }
+      }
+
+      &::after {
+        background-image: url(/images/apple-devices-preview.webp);
+        background-size: 130%;
+      }
+    }
+  }
+
+  .banner-start-commands {
+    width: 230px;
+    text-align: left;
+    margin: 0 auto;
+    padding: 0.5rem 1rem;
+    line-height: 1.45em;
+    font-size: $code-font-size;
+    font-family: $code-font-family;
+    background-color: $code-background-color;
+    @include border-radius($global-border-radius);
+
+    [data-theme='dark'] & {
+      background-color: $code-background-color-dark;
+    }
+    // command line
+    span {
+      display: block;
+      &::before {
+        content: "$";
+        opacity: 0.5;
+        padding-right: 0.5rem;
+      }
+    }
+  }
+
+  .quick-start-btn {
+    display: inline-block;
+    width: 230px;
+    border-radius: 8px;
+    transition: background-color 0.5s, color 0.5s;
+    font-weight: 600;
+    font-size: 18px;
+    padding: 8px 1rem;
+    margin-block: 1rem;
+    letter-spacing: 4px;
+    background-color: #42b883;
+    color: #fff;
+
+    i {
+      transition: transform 0.2s;
+    }
+
+    &:hover {
+      background-color: #33a06f;
+      transition-duration: 0.2s;
+
+      i {
+        transform: translate(2px);
+      }
+
+      [data-theme='dark'] & {
+        background-color: #42d392;
+        color: #f0f0f0;
+      }
+    }
+  }
+}
+
+.aside-custom {
+  &:not(:first-child) {
+    margin-top: 1rem;
+  }
+}
+
+.hr-edge-weak {
+  border: 0;
+  padding-top: 1px;
+  background: linear-gradient(to right, transparent, var(--hr-color, #d0d0d5), transparent);
+}
+
+#toc-auto {
+  .follow-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding-inline: 10px;
+
+    .author-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 500;
+
+      .author-avatar {
+        width: 34px;
+        border-radius: 50%;
+        border: 1px solid $global-border-color;
+  
+        [data-theme='dark'] & {
+          border-color: $global-border-color-dark;
+        }
+      }
+    }
+    .follow-btn {
+      border: 1px solid var(--follow-btn-border-color, #d1d9e0);
+      background-color: var(--follow-btn-bg-color, #f6f8fa);
+      border-radius: 6px;
+      padding: 4px 10px;
+      flex-shrink: 0;
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--follow-btn-color, #25292e);
+
+      [data-theme='dark'] & {
+        --follow-btn-color: #d1d7e0;
+        --follow-btn-border-color: #3d444d;
+        --follow-btn-bg-color: #2a313c;
+      }
+
+      &:active,
+      &:hover {
+        --follow-btn-border-color: #d1d9e0;
+        --follow-btn-bg-color: #eff2f5;
+        --fa-animation-iteration-count: 0;
+        transition-duration: .1s;
+
+        i {
+          --fa: "\2b";
+        }
+
+        [data-theme='dark'] & {
+          --follow-btn-border-color: #3d444d;
+          --follow-btn-bg-color: #2f3742;
+        }
+      }
+    }
+  }
+  // 临时修复高度计算错误的问题
+  .toc-content {
+    max-height: calc(100vh - 13rem);
+  }
+}
+
+[lang='en'] {
+  .collection-details .collection-summary .collection-name::before {
+    content: '';
+  }
+}
+
+// .single {
+//   // Content adapter generated posts style
+//   &[data-adapters='projects'] {
+//     // write here
+//   }
+// }
+
+// ==============================
+// Mobile style
+// ==============================
+@media only screen and (max-width: 680px) {
+  .profile-custom {
+    .docs-navigation {
+      .docs-outline {
+        li {
+          padding-block: 0.25rem;
+        }
+      }
+
+      .docs-preview {
+        width: 100%;
+      }
+    }
+  }
 }
